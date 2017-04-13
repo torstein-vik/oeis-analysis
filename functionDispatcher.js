@@ -26,8 +26,6 @@ MongoClient.connect("mongodb://127.0.0.1:27017/multfuncdb", (err, db) => {
 
 });
 
-var globalAccessPoint = {};
-
 function dispatch(f){
-    handler.handle(f, globalAccessPoint);
+    handler.handle(f);
 }
