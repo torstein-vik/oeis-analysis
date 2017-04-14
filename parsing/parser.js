@@ -47,7 +47,7 @@ const _parserInternal =
 {
     0: (v1, v2, rec, string) => rec(v1, string).flatMap((result) => rec(v2(result.value), result.post)),
     1: (v1, v2, rec, string) => rec(v1, string).concat(rec(v2, string)),
-    2: (v1, v2, rec, string) => [{value: string[0], post: string.slice(1)}],
+    2: (v1, v2, rec, string) => string.length > 0 ? [{value: string[0], post: string.slice(1)}] : [],
     3: (v1, v2, rec, string) => [],
     4: (v1, v2, rec, string) => [{value: v1, post: string}]
 }
@@ -58,14 +58,14 @@ function _parses(parser, string){
 
 function parses(parser, string){
     var results = _parses(parser, string);
-    return results.filter((x) => x.post == "");
+    return results.filter((x) => x.post == "").map((x) => x.value);
 }
 
 function parse(parser, string){
     var results = parses(parser, string);
 
     if (results.length == 1){
-        return results[0].value;
+        return results[0];
     } else if (results.length == 0) {
         console.log("No parse!");
     } else {
